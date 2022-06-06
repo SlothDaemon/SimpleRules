@@ -8,7 +8,7 @@ pedestrians-own [
   speed
   mass
   desired-velocity
-  distance-to-collision ; technically superfluous to store but nice to keep for debug
+  distance-to-collision
   time-to-collision
   revertdistance
   expiry
@@ -140,7 +140,7 @@ end
 
 to go
   ask pedestrians [
-    if predict? [ ask other pedestrians [ walk-hypothetical ] ]
+    if predict? [ ask other pedestrians [ walk-hypothetical walk-hypothetical walk-hypothetical ] ]
     compute-collision
     if predict? [ ask other pedestrians [ revert ] ]
   ]
@@ -200,7 +200,7 @@ to compute-collision
       set heading (([heading] of myself) + a) ]
   ]
   ask raycasts [ find-closest ]
-  let candidate min-one-of raycasts [distance destination]
+  let candidate min-one-of raycasts [ distance destination ]
   set heading [heading] of candidate
 
   set distance-to-collision distance candidate
@@ -210,7 +210,6 @@ to compute-collision
 
   ask raycasts [ die ]
 end
-
 
 to find-closest
   while [life > 0] [
@@ -245,8 +244,8 @@ GRAPHICS-WINDOW
 16
 -16
 16
-0
-0
+1
+1
 1
 ticks
 30.0
@@ -260,16 +259,16 @@ vision-angle
 vision-angle
 30
 180
-70.0
+90.0
 5
 1
 deg.
 HORIZONTAL
 
 BUTTON
-3
+2
 12
-123
+124
 45
 NIL
 go
@@ -284,24 +283,24 @@ NIL
 1
 
 SLIDER
-2
-415
-252
-448
+0
+417
+256
+450
 max-dist
 max-dist
 1
 50
-28.0
+25.0
 1
 1
 NIL
 HORIZONTAL
 
 SLIDER
-2
+4
 212
-257
+258
 245
 pedestrian-count
 pedestrian-count
@@ -314,7 +313,7 @@ NIL
 HORIZONTAL
 
 SLIDER
-125
+127
 113
 256
 146
@@ -322,7 +321,7 @@ random-obstacles
 random-obstacles
 0
 100
-97.0
+100.0
 1
 1
 NIL
@@ -339,17 +338,17 @@ Pedestrian settings
 1
 
 TEXTBOX
-3
-402
-153
-420
+1
+404
+151
+422
 Ray tracer settings
 11
 0.0
 1
 
 BUTTON
-125
+127
 12
 255
 45
@@ -366,9 +365,9 @@ NIL
 1
 
 BUTTON
-2
+4
 148
-121
+124
 181
 NIL
 create-hallway
@@ -383,9 +382,9 @@ NIL
 1
 
 BUTTON
-0
+3
 78
-123
+124
 111
 empty-area
 setup
@@ -400,19 +399,19 @@ NIL
 1
 
 TEXTBOX
-3
-60
-74
-78
+6
+65
+77
+83
 Area settings
 11
 0.0
 1
 
 BUTTON
-1
+4
 113
-122
+124
 146
 NIL
 random-area
@@ -427,7 +426,7 @@ NIL
 1
 
 SLIDER
-123
+125
 246
 257
 279
@@ -435,7 +434,7 @@ angle-resolution
 angle-resolution
 1
 5
-4.0
+5.0
 1
 1
 deg.
@@ -459,9 +458,9 @@ NIL
 1
 
 BUTTON
-125
+127
 148
-257
+256
 181
 NIL
 create-bottleneck
@@ -528,9 +527,9 @@ ticks
 HORIZONTAL
 
 BUTTON
-125
+126
 78
-255
+256
 111
 NIL
 stand-off
